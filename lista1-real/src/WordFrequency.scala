@@ -1,4 +1,3 @@
-import scala.Predef.->
 import scala.collection.immutable.HashSet
 import scala.io.Source
 import scala.util.Using
@@ -26,7 +25,7 @@ object WordFrequency {
       .toSeq
       .sortBy(-_._2)
       .take(numberOfWordsForCloud)
-      .map { case (word, count) => count + ";" + word }
+      .map { case (word, count) => s"$word; $count" }
   }
 
   def printSeqToScreen(seq: Seq[String]): Unit = {
