@@ -35,7 +35,7 @@ object WordFrequency {
   }
 
   def termFrequency(word: String, wordMap: Map[String, Int]): Double =
-    wordMap.getOrElse(word, 0) / wordMap.foldLeft(0)(_ + _._2)
+    wordMap.getOrElse(word, 0).toFloat / wordMap.foldLeft(0)(_ + _._2)
 
   def inverseDocumentFrequency(word: String, allWordMaps: Array[Map[String, Int]]): Double =
     math.log(allWordMaps.length / allWordMaps.count(_.contains(word)))
@@ -62,7 +62,7 @@ object WordFrequency {
 
   def main(args: Array[String]): Unit = {
     val stopWords = loadStopWords("data/stopwords.txt")
-    val books = Array("xd", "test")
+    val books = Array("data/crimeandpunishment.txt", "data/junglebook.txt")
 
     val loadedBooks = loadAllBooks(books)
     val frequentWordsPerBook = calculateFrequentWordsPerBook(loadedBooks, stopWords)
@@ -70,7 +70,9 @@ object WordFrequency {
 
     for (book <- books) {
       println(book)
+      println("words")
       printSeqToScreen(transformWordMapToCsvSeq(frequentWordsPerBook.getOrElse(book, Map()), 10))
+      println("tfidf")
       printSeqToScreen(transformWordMapToCsvSeq(tfIdfsPerBook.getOrElse(book, Map()), 10))
     }
 
